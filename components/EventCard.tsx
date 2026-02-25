@@ -21,7 +21,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
             whileHover={{ y: -5 }}
-            className="group relative glass rounded-3xl p-6 overflow-hidden cursor-pointer"
+            className="group relative glass rounded-3xl p-6 overflow-hidden cursor-pointer shadow-xl border border-gray-300"
         >
             <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                 <IconComponent size={80} />

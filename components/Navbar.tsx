@@ -10,7 +10,7 @@ import { useAnimationContext } from '@/context/AnimationContext';
 const navContainer: Variants = {
     hidden: {},
     visible: {
-        transition: { staggerChildren: 0.05, delayChildren: 0 },
+        transition: { staggerChildren: 0.08, delayChildren: 0 },
     },
 };
 
@@ -19,7 +19,7 @@ const navItem: Variants = {
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+        transition: { duration: 0.48, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
     },
 };
 

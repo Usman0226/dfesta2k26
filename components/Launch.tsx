@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { motion } from "framer-motion";
 
 type Ease4 = [number, number, number, number];
@@ -14,40 +14,99 @@ const fadeUp = (delay: number) => ({
     },
 });
 
-const CharReveal = ({
+// ── Data-science scramble: each character cycles random alphanumerics
+//    then locks into the final letter, mimicking a live decode animation.
+const SCRAMBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&";
+
+const DataScramble = ({
     text,
     baseDelay,
-    stagger = 0.042,
-    duration = 0.55,
+    iterationsPerChar = 10,
+    intervalMs = 35,
+    staggerMs = 55,
+    className,
+    style,
 }: {
     text: string;
     baseDelay: number;
-    stagger?: number;
-    duration?: number;
-}) => (
-    <>
-        {text.split("").map((ch, i) => (
-            <span
-                key={i}
-                style={{
-                    display: "inline-block",
-                    overflow: "hidden",
-                    lineHeight: 1.15,
-                    verticalAlign: "bottom",
-                }}
-            >
-                <motion.span
-                    initial={{ y: "110%", opacity: 0 }}
-                    animate={{ y: "0%", opacity: 1 }}
-                    transition={{ delay: baseDelay + i * stagger, duration, ease: EASE }}
-                    style={{ display: "inline-block", whiteSpace: "pre" }}
+    iterationsPerChar?: number;
+    intervalMs?: number;
+    staggerMs?: number;
+    className?: string;
+    style?: React.CSSProperties;
+}) => {
+    const [displayed, setDisplayed] = useState<string[]>(() =>
+        text.split("").map(() => " ")
+    );
+    const rafRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+    useEffect(() => {
+        const outerTimeout = setTimeout(() => {
+            const timers: ReturnType<typeof setTimeout>[] = [];
+
+            text.split("").forEach((finalChar, i) => {
+                if (finalChar.trim() === "") {
+                    setDisplayed(prev => {
+                        const next = [...prev];
+                        next[i] = finalChar;
+                        return next;
+                    });
+                    return;
+                }
+
+                let count = 0;
+
+                const tick = () => {
+                    if (count < iterationsPerChar) {
+                        setDisplayed(prev => {
+                            const next = [...prev];
+                            next[i] = SCRAMBLE_CHARS[
+                                Math.floor(Math.random() * SCRAMBLE_CHARS.length)
+                            ];
+                            return next;
+                        });
+                        count++;
+                        const t = setTimeout(tick, intervalMs);
+                        timers.push(t);
+                    } else {
+                        setDisplayed(prev => {
+                            const next = [...prev];
+                            next[i] = finalChar;
+                            return next;
+                        });
+                    }
+                };
+
+                const startTimer = setTimeout(tick, i * staggerMs);
+                timers.push(startTimer);
+            });
+
+            rafRef.current = timers;
+        }, baseDelay * 1000);
+
+        return () => {
+            clearTimeout(outerTimeout);
+            rafRef.current.forEach(clearTimeout);
+        };
+    }, [text, baseDelay, iterationsPerChar, intervalMs, staggerMs]);
+
+    return (
+        <span className={className} style={style}>
+            {displayed.map((ch, i) => (
+                <span
+                    key={i}
+                    style={{
+                        display: "inline-block",
+                        minWidth: ch === " " ? "0.3em" : undefined,
+                        fontVariantNumeric: "tabular-nums",
+                    }}
                 >
                     {ch}
-                </motion.span>
-            </span>
-        ))}
-    </>
-);
+                </span>
+            ))}
+        </span>
+    );
+};
 
 const Launch = () => (
     <motion.div
@@ -92,8 +151,11 @@ const Launch = () => (
             Department of
         </motion.p>
 
+        {/* ── DATA SCIENCE — data-decode scramble treatment ── */}
         <h1 aria-label="Data Science" className="leading-none mb-1">
-            <span
+
+            {/* "DATA" — bold display font, amber→violet gradient, scramble reveal */}
+            <motion.span
                 className="block font-black uppercase"
                 style={{
                     fontFamily: "var(--font-display)",
@@ -103,29 +165,45 @@ const Launch = () => (
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
                 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.01, delay: 0.38 }}
             >
-                <CharReveal text="DATA" baseDelay={0.42} stagger={0.04} duration={0.4} />
-            </span>
+                <DataScramble
+                    text="DATA"
+                    baseDelay={0.38}
+                    iterationsPerChar={12}
+                    intervalMs={38}
+                    staggerMs={60}
+                />
+            </motion.span>
 
-            {/* "SCIENCE" — outlined / stroke style with subtle fill, smaller */}
-            <span
+            {/* "SCIENCE" — monospace code-tag style, indigo stroke, scramble reveal */}
+            <motion.span
                 className="block font-black uppercase"
                 style={{
-                    fontFamily: "var(--font-display)",
-                    fontSize: "clamp(1.6rem, 5.5vw, 3.8rem)",
-                    letterSpacing: "0.28em",
-                    WebkitTextStroke: "1.5px #6366f1",
+                    fontFamily: "var(--font-geist-mono), monospace",
+                    fontSize: "clamp(1.4rem, 4.8vw, 3.2rem)",
+                    letterSpacing: "0.22em",
+                    WebkitTextStroke: "1.2px #6366f1",
                     color: "transparent",
-                    // subtle fill so it doesn't look empty
                     background: "linear-gradient(to right, #818cf880, #06b6d480)",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",
-                    // re-apply stroke on top via text-stroke (overrides fill transparency)
                     paintOrder: "stroke fill",
                 } as React.CSSProperties}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.01, delay: 0.55 }}
             >
-                <CharReveal text="SCIENCE" baseDelay={0.6} stagger={0.036} duration={0.4} />
-            </span>
+                <DataScramble
+                    text="SCIENCE"
+                    baseDelay={0.55}
+                    iterationsPerChar={14}
+                    intervalMs={35}
+                    staggerMs={50}
+                />
+            </motion.span>
         </h1>
 
         {/* Divider */}
