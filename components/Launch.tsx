@@ -6,16 +6,14 @@ import { motion } from "framer-motion";
 type Ease4 = [number, number, number, number];
 const EASE: Ease4 = [0.16, 1, 0.3, 1];
 
-// Faster fade-up — fits within the 3s hold
 const fadeUp = (delay: number) => ({
     hidden: { opacity: 0, y: 18, filter: "blur(5px)" },
     show: {
         opacity: 1, y: 0, filter: "blur(0px)",
-        transition: { duration: 0.75, delay, ease: EASE },
+        transition: { duration: 0.5, delay, ease: EASE },
     },
 });
 
-// Per-character wipe-up clip reveal
 const CharReveal = ({
     text,
     baseDelay,
@@ -69,7 +67,7 @@ const Launch = () => (
                 hidden: { opacity: 0, scale: 0.78, filter: "blur(12px)", y: 14 },
                 show: {
                     opacity: 1, scale: 1, filter: "blur(0px)", y: 0,
-                    transition: { duration: 0.85, ease: EASE }
+                    transition: { duration: 0.6, ease: EASE }
                 },
             }}
             src="/DEPT_LOGO.png"
@@ -79,7 +77,7 @@ const Launch = () => (
 
         {/* Eyebrow */}
         <motion.p
-            variants={fadeUp(0.3)}
+            variants={fadeUp(0.2)}
             className="text-[10px] md:text-xs font-mono font-semibold tracking-[0.38em] uppercase text-zinc-400 mb-4"
         >
             MITS · Deemed to be University
@@ -87,15 +85,13 @@ const Launch = () => (
 
         {/* "DEPARTMENT OF" label */}
         <motion.p
-            variants={fadeUp(0.48)}
+            variants={fadeUp(0.32)}
             className="text-[11px] md:text-xs font-bold tracking-[0.5em] uppercase text-zinc-400 mb-1"
             style={{ fontFamily: "var(--font-display)" }}
         >
             Department of
         </motion.p>
 
-        {/* ── DATA SCIENCE — new split typographic treatment ── */}
-        {/* "DATA" — filled amber → indigo gradient, large */}
         <h1 aria-label="Data Science" className="leading-none mb-1">
             <span
                 className="block font-black uppercase"
@@ -108,7 +104,7 @@ const Launch = () => (
                     WebkitTextFillColor: "transparent",
                 }}
             >
-                <CharReveal text="DATA" baseDelay={0.6} stagger={0.055} duration={0.55} />
+                <CharReveal text="DATA" baseDelay={0.42} stagger={0.04} duration={0.4} />
             </span>
 
             {/* "SCIENCE" — outlined / stroke style with subtle fill, smaller */}
@@ -128,13 +124,13 @@ const Launch = () => (
                     paintOrder: "stroke fill",
                 } as React.CSSProperties}
             >
-                <CharReveal text="SCIENCE" baseDelay={0.85} stagger={0.048} duration={0.55} />
+                <CharReveal text="SCIENCE" baseDelay={0.6} stagger={0.036} duration={0.4} />
             </span>
         </h1>
 
         {/* Divider */}
         <motion.div
-            variants={fadeUp(1.35)}
+            variants={fadeUp(0.95)}
             className="flex items-center gap-3 w-full max-w-xs mt-5 mb-0"
         >
             <motion.span
@@ -142,7 +138,7 @@ const Launch = () => (
                 style={{ background: "linear-gradient(to right, transparent, #f59e0b)" }}
                 initial={{ scaleX: 0, originX: "0%" }}
                 animate={{ scaleX: 1 }}
-                transition={{ delay: 1.4, duration: 0.6, ease: EASE }}
+                transition={{ delay: 1.0, duration: 0.45, ease: EASE }}
             />
             <span className="relative flex h-1.5 w-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
@@ -153,7 +149,7 @@ const Launch = () => (
                 style={{ background: "linear-gradient(to left, transparent, #6366f1)" }}
                 initial={{ scaleX: 0, originX: "100%" }}
                 animate={{ scaleX: 1 }}
-                transition={{ delay: 1.4, duration: 0.6, ease: EASE }}
+                transition={{ delay: 1.0, duration: 0.45, ease: EASE }}
             />
         </motion.div>
     </motion.div>

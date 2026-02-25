@@ -7,11 +7,10 @@ import { ThemeToggle } from './ui/skiper-ui/ThemeToggle';
 import { Menu, X } from 'lucide-react';
 import { useAnimationContext } from '@/context/AnimationContext';
 
-// Stagger container — children animate in sequence
 const navContainer: Variants = {
     hidden: {},
     visible: {
-        transition: { staggerChildren: 0.22, delayChildren: 0 },
+        transition: { staggerChildren: 0.05, delayChildren: 0 },
     },
 };
 
@@ -20,7 +19,7 @@ const navItem: Variants = {
     visible: {
         opacity: 1,
         y: 0,
-        transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
+        transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
     },
 };
 
@@ -91,9 +90,10 @@ const Navbar = () => {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -20 }}
+                        initial={{ opacity: 0, y: -14 }}
                         animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -20 }}
+                        exit={{ opacity: 0, y: -14 }}
+                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                         className="absolute top-full left-0 w-full p-4 md:hidden"
                     >
                         <div className="glass rounded-2xl p-6 flex flex-col gap-4">

@@ -18,7 +18,7 @@ const Hero = () => {
             filter: isRevealComplete ? "blur(0px)" : "blur(6px)",
         },
         transition: {
-            duration: 0.85,
+            duration: 0.6,
             delay,
             ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
         },

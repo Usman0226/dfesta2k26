@@ -12,7 +12,7 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
 
     // How long after shouldStartBrandReveal=true before we call onComplete
     // (Navbar + Hero CTA animate in). Covers all stroke + fill animations.
-    const TOTAL_MS = 5500;
+    const TOTAL_MS = 3800;
 
     // Start the completion timer only once the overlay has fully exited
     useEffect(() => {
@@ -23,8 +23,8 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
 
     // Per-letter stroke animation timings — no upfront START_DELAY needed
     // because we now wait for shouldStartBrandReveal before animating at all.
-    const STROKE_DURATION = 0.9;
-    const STAGGER_DELAY = 0.45;
+    const STROKE_DURATION = 0.65;
+    const STAGGER_DELAY = 0.3;
     const FILL_DELAY = letters.length * STAGGER_DELAY + STROKE_DURATION - 0.2;
 
     const getLetterStroke = (i: number) => ({
@@ -51,8 +51,8 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
         visible: {
             fillOpacity: 1,
             transition: {
-                duration: 0.5,
-                delay: FILL_DELAY + i * 0.05,
+                duration: 0.35,
+                delay: FILL_DELAY + i * 0.035,
                 ease: "easeOut",
             } as any,
         },
@@ -65,8 +65,8 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
             y: 0,
             letterSpacing: "0.5em",
             transition: {
-                duration: 0.8,
-                delay: FILL_DELAY + 0.4,
+                duration: 0.55,
+                delay: FILL_DELAY + 0.28,
                 ease: "easeOut",
             } as any,
         },
