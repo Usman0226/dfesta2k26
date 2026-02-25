@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Instagram, Twitter, Github, Heart, ExternalLink } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, ExternalLink } from "lucide-react";
 
 const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 24 },
@@ -11,18 +11,9 @@ const fadeUp = (delay = 0) => ({
     transition: { duration: 0.65, delay, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] },
 });
 
-const quickLinks = [
-    { label: "Home", href: "#" },
-    { label: "Events", href: "#events" },
-    { label: "About", href: "#about" },
-    { label: "Contact", href: "#contact" },
-    { label: "Register", href: "#" },
-];
-
 const socials = [
-    { Icon: Instagram, href: "#", label: "Instagram" },
-    { Icon: Twitter, href: "#", label: "Twitter" },
-    { Icon: Github, href: "#", label: "GitHub" },
+    { Icon: Instagram, URL: "https://www.instagram.com/dfesta_26", label: "Instagram" },
+    { Icon: Linkedin, URL: "https://www.linkedin.com/in/mits-cse-data-science-432ab9380", label: "LinkedIn" },
 ];
 
 const Footer = () => (
@@ -36,8 +27,8 @@ const Footer = () => (
         {/* ── Main content ── */}
         <div className="max-w-7xl mx-auto px-6 md:px-12 pt-20 pb-10">
 
-            {/* Top grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-14 pb-14 border-b border-white/10">
+            {/* Top grid — 2 cols */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-14 pb-4 border-b border-white/10">
 
                 {/* ── Col 1 — Brand + address ── */}
                 <motion.div {...fadeUp(0)} className="flex flex-col gap-5">
@@ -51,16 +42,17 @@ const Footer = () => (
                                 WebkitTextFillColor: "transparent",
                             }}
                         >
-                            DFESTA
+                            <span className="text-red-700 tracking-wider" style={{ WebkitTextFillColor: "rgb(185 28 28)" }}>MITS</span>
+
                         </p>
                         <p className="text-[10px] font-mono font-bold tracking-[0.38em] uppercase text-muted-foreground mt-0.5">
-                            2k26
+                            DEEMED TO BE UNIVERSITY
                         </p>
                     </div>
 
                     <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
                         A data science symposium that bridges rigorous methodology with
-                        high-stakes creative output — shaping the next wave of ML &amp; AI.
+                        high-stakes creative output.
                     </p>
 
                     {/* Address */}
@@ -82,42 +74,29 @@ const Footer = () => (
                     </div>
                 </motion.div>
 
-                {/* ── Col 2 — Quick links ── */}
-                <motion.div {...fadeUp(0.1)} className="flex flex-col gap-5">
-                    <h4 className="text-xs font-bold tracking-[0.3em] uppercase text-muted-foreground">
-                        Quick Links
-                    </h4>
-                    <ul className="flex flex-col gap-3">
-                        {quickLinks.map(({ label, href }) => (
-                            <li key={label}>
-                                <a
-                                    href={href}
-                                    className="group inline-flex items-center gap-1.5 text-sm font-medium hover:text-primary transition-colors"
-                                >
-                                    <span className="w-0 group-hover:w-3 h-px bg-primary transition-all duration-300 origin-left" />
-                                    {label}
-                                </a>
-                            </li>
-                        ))}
-                    </ul>
-                </motion.div>
-
-                {/* ── Col 3 — Social + register CTA ── */}
-                <motion.div {...fadeUp(0.2)} className="flex flex-col gap-6">
+                {/* ── Col 2 — Social icons + register CTA ── */}
+                <motion.div {...fadeUp(0.15)} className="flex flex-col gap-6">
                     <div className="flex flex-col gap-4">
                         <h4 className="text-xs font-bold tracking-[0.3em] uppercase text-muted-foreground">
                             Follow Us
                         </h4>
                         <div className="flex gap-3">
-                            {socials.map(({ Icon, href, label }) => (
-                                <a
+                            {socials.map(({ Icon, URL, label }) => (
+                                <motion.a
                                     key={label}
-                                    href={href}
+                                    onClick={() => window.open(URL, "_blank")}
                                     aria-label={label}
-                                    className="group w-9 h-9 rounded-xl glass flex items-center justify-center hover:bg-primary hover:border-primary transition-all duration-300"
+                                    whileHover={{ y: -5 }}
+                                    transition={{ type: "spring", stiffness: 400, damping: 20 }}
+                                    className="group relative w-11 h-11 rounded-xl glass flex items-center justify-center cursor-pointer overflow-hidden"
                                 >
-                                    <Icon size={16} className="text-muted-foreground group-hover:text-white transition-colors" />
-                                </a>
+                                    {/* Icon */}
+                                    <Icon size={17} className="text-muted-foreground group-hover:text-white transition-colors duration-300 relative z-10" />
+                                    {/* Primary fill */}
+                                    <span className="absolute inset-0 bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-xl" />
+                                    {/* Glow — same as EventCard */}
+                                    <span className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500 -z-10" />
+                                </motion.a>
                             ))}
                         </div>
                     </div>
@@ -145,16 +124,11 @@ const Footer = () => (
                 {...fadeUp(0.3)}
                 className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-[11px] text-muted-foreground font-mono"
             >
-                {/* Marquee-style label */}
                 <p className="tracking-[0.3em] uppercase text-center md:text-left">
-                    Department of Data Science &mdash; D&apos;FESTA 2k26 Official Event Portal
+                    Department of Data Science &mdash; D&apos;FESTA 2k26 Event Portal
                 </p>
-
-                {/* Right — credit */}
                 <p className="flex items-center gap-1.5 whitespace-nowrap shrink-0">
-                    Designed with
-                    <Heart size={11} className="fill-red-500 text-red-500 animate-pulse" />
-                    by
+                    Crafted by
                     <span
                         className="font-bold"
                         style={{

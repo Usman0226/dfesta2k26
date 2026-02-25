@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence, type Variants } from 'framer-motion';
 import { ThemeToggle } from './ui/skiper-ui/ThemeToggle';
 import { Menu, X } from 'lucide-react';
@@ -23,8 +24,10 @@ const navItem: Variants = {
     },
 };
 
-const Navbar = () => {
+const Navbar = ({ onGalleryClick }: { onGalleryClick?: () => void }) => {
     const { isRevealComplete } = useAnimationContext();
+    const pathname = usePathname();
+    const isVisible = pathname !== '/' || isRevealComplete;
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -35,11 +38,30 @@ const Navbar = () => {
     }, []);
 
     const navLinks = [
-        { name: 'Home', href: '#' },
+        { name: 'Home', href: '/' },
         { name: 'Events', href: '#events' },
+        { name: 'Gallery', href: '#gallery' },
         { name: 'About', href: '#about' },
         { name: 'Contact', href: '#contact' },
     ];
+
+    // Smooth-scroll to anchor links without a hard page navigation
+    const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+        if (href === '#gallery') {
+            e.preventDefault();
+            onGalleryClick?.();
+            return;
+        }
+        if (href.startsWith('#') || href.startsWith('/#')) {
+            e.preventDefault();
+            const id = href.replace('/#', '').replace('#', '');
+            const el = document.getElementById(id);
+            if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+        setIsMobileMenuOpen(false);
+    };
 
     return (
         <nav className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 border-none shadow-none ${isScrolled ? 'py-2 bg-transparent backdrop-blur-md' : 'py-4 bg-transparent'}`}>
@@ -48,7 +70,7 @@ const Navbar = () => {
                     className="flex items-center justify-between"
                     variants={navContainer}
                     initial="hidden"
-                    animate={isRevealComplete ? "visible" : "hidden"}
+                    animate={isVisible ? "visible" : "hidden"}
                 >
                     {/* Logo block */}
                     <motion.div variants={navItem} className="flex items-center gap-3">
@@ -66,6 +88,7 @@ const Navbar = () => {
                                 key={link.name}
                                 variants={navItem}
                                 href={link.href}
+                                onClick={(e) => handleNavClick(e, link.href)}
                                 className="text-sm font-medium hover:text-primary transition-colors"
                             >
                                 {link.name}
@@ -102,7 +125,7 @@ const Navbar = () => {
                                     key={link.name}
                                     href={link.href}
                                     className="text-lg font-medium"
-                                    onClick={() => setIsMobileMenuOpen(false)}
+                                    onClick={(e) => handleNavClick(e, link.href)}
                                 >
                                     {link.name}
                                 </a>

@@ -58,7 +58,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                     whileTap={{ scale: 0.95 }}
                     className="w-full py-3 rounded-2xl bg-white text-black dark:bg-zinc-800 dark:text-white font-bold text-sm hover:bg-primary transition-colors group-hover:text-white mt-2"
                 >
-                    Learn More
+                    Register
                 </motion.button>
             </div>
 

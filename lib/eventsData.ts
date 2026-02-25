@@ -12,7 +12,7 @@ export interface Event {
 export const events: Event[] = [
     {
         id: '1',
-        title: 'DataThon 2026',
+        title: 'Code Crackers 2026',
         description: 'A 24-hour hackathon to solve real-world problems using Big Data and ML models.',
         icon: 'Database',
         category: 'Technical',
@@ -22,17 +22,17 @@ export const events: Event[] = [
     },
     {
         id: '2',
-        title: 'Neural Night',
+        title: 'Web Xpress',
         description: 'Live coding competition focused on optimizing deep learning architectures.',
         icon: 'Cpu',
         category: 'Technical',
         date: 'March 15, 2026',
         time: '02:00 PM',
-        venue: 'Lab Alpha'
+        venue: 'Circular Block'
     },
     {
         id: '3',
-        title: 'VizMaster',
+        title: 'Data Pirates',
         description: 'Showcase your storytelling skills through interactive data visualizations.',
         icon: 'BarChart3',
         category: 'Technical',
@@ -42,10 +42,10 @@ export const events: Event[] = [
     },
     {
         id: '4',
-        title: 'AI Ethics Debate',
+        title: 'Project Expo',
         description: 'Panel discussion on the societal impacts of Artificial General Intelligence.',
         icon: 'MessageSquare',
-        category: 'Non-Technical',
+        category: 'Technical',
         date: 'March 16, 2026',
         time: '01:00 PM',
         venue: 'Conference Room 1'
