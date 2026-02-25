@@ -53,7 +53,7 @@ const CharReveal = ({
 
 const Launch = () => (
     <motion.div
-        className="relative flex flex-col items-center justify-center gap-0 text-center px-6 select-none"
+        className="relative flex flex-col items-center justify-center gap-0 text-center px-6 select-none rounded-b-2xl"
         initial="hidden"
         animate="show"
     >

@@ -34,14 +34,14 @@ const cardVariants = {
     visible: (i: number) => ({
         opacity: 1,
         y: 0,
-        transition: { duration: 0.45, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] },
+        transition: { duration: 0.45, delay: i * 0.08, ease: [0.16, 1, 0.3, 1] as const },
     }),
     exit: { opacity: 0, y: -12, transition: { duration: 0.25 } },
 };
 
 const panelVariants = {
     enter: (dir: number) => ({ opacity: 0, x: dir * 32 }),
-    center: { opacity: 1, x: 0, transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] } },
+    center: { opacity: 1, x: 0, transition: { duration: 0.38, ease: [0.16, 1, 0.3, 1] as const } },
     exit: (dir: number) => ({ opacity: 0, x: dir * -32, transition: { duration: 0.25 } }),
 };
 
