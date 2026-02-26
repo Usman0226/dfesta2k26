@@ -34,14 +34,18 @@ const EventCard = ({ event, index }: EventCardProps) => {
                 layoutId={`card-container-${event.id}`}
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1, type: "spring", stiffness: 300, damping: 30 }}
-                whileHover={{ y: -5 }}
-                className="group relative glass rounded-3xl p-6 overflow-hidden shadow-xl border border-gray-300 dark:border-white/10 flex flex-col h-full bg-white/40 dark:bg-black/40 backdrop-blur-md cursor-pointer"
+                viewport={{ once: true, margin: "0px 0px -50px 0px" }}
+                transition={{
+                    y: { duration: 0.5, delay: index * 0.05, type: "spring", stiffness: 300, damping: 30 },
+                    opacity: { duration: 0.5, delay: index * 0.05 },
+                    layout: { type: "spring", stiffness: 350, damping: 30 }
+                }}
+                whileHover={{ y: -5, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+                className="group relative glass rounded-3xl p-6 overflow-hidden shadow-xl border border-gray-300 dark:border-white/10 flex flex-col h-full bg-white/60 dark:bg-black/40 backdrop-blur-sm sm:backdrop-blur-md cursor-pointer will-change-transform"
                 onClick={() => setIsExpanded(true)}
             >
                 {/* Background Glow */}
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10" />
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10 hidden sm:block" />
 
                 <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:opacity-20 transition-opacity">
                     <IconComponent size={80} />
@@ -49,7 +53,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
 
                 <div className="flex flex-col h-full justify-between gap-6 relative z-10 pointer-events-none">
                     <div className="flex flex-col gap-2">
-                        <motion.div layoutId={`icon-${event.id}`} className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                        <motion.div layoutId={`icon-${event.id}`} transition={{ layout: { type: "spring", stiffness: 350, damping: 30 } }} className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
                             <IconComponent size={24} />
                         </motion.div>
                         <div>
@@ -78,14 +82,14 @@ const EventCard = ({ event, index }: EventCardProps) => {
                         <motion.button
                             whileTap={{ scale: 0.95 }}
                             onClick={(e) => { e.stopPropagation(); setIsExpanded(true); }}
-                            className="flex-1 py-3 rounded-2xl border border-gray-300 dark:border-zinc-700 bg-transparent font-bold text-sm hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+                            className="hover:text-white flex-1 py-3 rounded-2xl border border-gray-100 dark:border-zinc-700 bg-transparent font-bold text-sm hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
                         >
                             Details
                         </motion.button>
                         <motion.button
                             whileTap={{ scale: 0.95 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="border border-gray-100 flex-1 py-3 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:bg-primary dark:hover:bg-primary transition-colors hover:text-white shadow-md z-10"
+                            className="border border-gray-100 flex-1 py-3 rounded-2xl bg-black/40 text-white dark:bg-white dark:text-black font-bold text-sm hover:bg-primary dark:hover:bg-primary transition-colors hover:text-white shadow-md z-10"
                         >
                             Register
                         </motion.button>
@@ -102,15 +106,17 @@ const EventCard = ({ event, index }: EventCardProps) => {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
+                            transition={{ duration: 0.2 }}
                             onClick={() => setIsExpanded(false)}
-                            className="absolute inset-0 bg-black/60 cursor-pointer"
+                            className="absolute inset-0 bg-black/60 cursor-pointer will-change-opacity"
                         />
 
                         {/* Expanded Card Container */}
                         <motion.div
                             layoutId={`card-container-${event.id}`}
-                            className="relative text-black dark:text-white w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-zinc-950 rounded-[2rem] shadow-2xl border border-black/5 dark:border-white/10 flex flex-col z-10"
-                            style={{ scrollbarWidth: 'none' }}
+                            transition={{ layout: { type: "spring", stiffness: 350, damping: 30 } }}
+                            className="relative text-black dark:text-white w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-zinc-950 rounded-[2rem] shadow-2xl border border-black/5 dark:border-white/10 flex flex-col z-10 will-change-transform origin-center"
+                            style={{ scrollbarWidth: 'none', WebkitOverflowScrolling: 'touch' }}
                         >
                             {/* Sticky Modal Header (to house close button nicely) */}
                             <div className="sticky top-0 right-0 w-full flex justify-end p-4 sm:p-6 z-50 pointer-events-none">
@@ -128,7 +134,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                             <div className="px-6 sm:px-10 pb-6 sm:pb-10 -mt-16 sm:-mt-20">
                                 {/* Event Header info */}
                                 <div className="flex flex-col gap-4 pr-16 pt-8 sm:pt-12">
-                                    <motion.div layoutId={`icon-${event.id}`} className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary">
+                                    <motion.div layoutId={`icon-${event.id}`} transition={{ layout: { type: "spring", stiffness: 350, damping: 30 } }} className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary">
                                         <IconComponent size={32} />
                                     </motion.div>
                                     <motion.div
