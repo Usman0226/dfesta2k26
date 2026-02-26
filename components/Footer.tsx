@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Mail, MapPin, Instagram, Linkedin, ExternalLink } from "lucide-react";
+import { Mail, MapPin, Instagram, Linkedin, ExternalLink, Link } from "lucide-react";
 
 const fadeUp = (delay = 0) => ({
     initial: { opacity: 0, y: 24 },
@@ -137,7 +137,7 @@ const Footer = () => (
                             WebkitTextFillColor: "transparent",
                         }}
                     >
-                        ARC Club — Community
+                       <span className="flex gap-1 items-center"> ARC Club — Community <ExternalLink className="transition-all duration-300 hover:scale-110" size={13} onClick={()=> window.open("https://arc-club.vercel.app")} /></span>
                     </span>
                 </p>
             </motion.div>

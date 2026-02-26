@@ -8,12 +8,7 @@ import { ThemeToggle } from './ui/skiper-ui/ThemeToggle';
 import { Menu, X } from 'lucide-react';
 import { useAnimationContext } from '@/context/AnimationContext';
 
-const navContainer: Variants = {
-    hidden: {},
-    visible: {
-        transition: { staggerChildren: 0.08, delayChildren: 0 },
-    },
-};
+
 
 const navItem: Variants = {
     hidden: { opacity: 0, y: -18 },
@@ -68,16 +63,28 @@ const Navbar = ({ onGalleryClick }: { onGalleryClick?: () => void }) => {
             <div className="w-full px-4 md:px-12">
                 <motion.div
                     className="flex items-center justify-between"
-                    variants={navContainer}
+                    variants={{
+                        hidden: { y: -20, opacity: 0 },
+                        visible: {
+                            y: 0,
+                            opacity: 1,
+                            transition: {
+                                staggerChildren: 0.1,
+                                delayChildren: 0.2,
+                                duration: 0.6,
+                                ease: [0.16, 1, 0.3, 1]
+                            }
+                        },
+                    }}
                     initial="hidden"
                     animate={isVisible ? "visible" : "hidden"}
                 >
                     {/* Logo block */}
                     <motion.div variants={navItem} className="flex items-center gap-3">
                         <Image src="/MITS-LOGO.png" alt="Logo" width={48} height={48} className="object-contain rounded-xl" />
-                        <div className="flex flex-col leading-tight">
+                        <div className="flex flex-col leading-tight" style={{ fontFamily: 'var(--font-display)' }}>
                             <span className="text-sm font-bold tracking-tight">MITS-Deemed to be University</span>
-                            <span className="text-xs font-semibold tracking-widest uppercase text-gradient">Dept. of Data Science</span>
+                            <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-gradient">Dept. of Data Science</span>
                         </div>
                     </motion.div>
 
@@ -89,7 +96,8 @@ const Navbar = ({ onGalleryClick }: { onGalleryClick?: () => void }) => {
                                 variants={navItem}
                                 href={link.href}
                                 onClick={(e) => handleNavClick(e, link.href)}
-                                className="text-sm font-medium hover:text-primary transition-colors"
+                                className="text-sm font-semibold hover:text-primary transition-colors tracking-wide"
+                                style={{ fontFamily: 'var(--font-display)' }}
                             >
                                 {link.name}
                             </motion.a>
@@ -102,8 +110,21 @@ const Navbar = ({ onGalleryClick }: { onGalleryClick?: () => void }) => {
                     {/* Mobile toggle */}
                     <motion.div variants={navItem} className="md:hidden flex items-center gap-4">
                         <ThemeToggle />
-                        <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                        <button
+                            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                            className="p-2 glass rounded-xl"
+                        >
+                            <AnimatePresence mode="wait">
+                                {isMobileMenuOpen ? (
+                                    <motion.div key="close" initial={{ rotate: -90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: 90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                        <X size={20} />
+                                    </motion.div>
+                                ) : (
+                                    <motion.div key="menu" initial={{ rotate: 90, opacity: 0 }} animate={{ rotate: 0, opacity: 1 }} exit={{ rotate: -90, opacity: 0 }} transition={{ duration: 0.2 }}>
+                                        <Menu size={20} />
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </button>
                     </motion.div>
                 </motion.div>
@@ -113,22 +134,26 @@ const Navbar = ({ onGalleryClick }: { onGalleryClick?: () => void }) => {
             <AnimatePresence>
                 {isMobileMenuOpen && (
                     <motion.div
-                        initial={{ opacity: 0, y: -14 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -14 }}
-                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
-                        className="absolute top-full left-0 w-full p-4 md:hidden"
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
+                        className="absolute top-full left-0 w-full overflow-hidden md:hidden bg-background/80 backdrop-blur-xl border-b border-white/10"
                     >
-                        <div className="glass rounded-2xl p-6 flex flex-col gap-4">
-                            {navLinks.map((link) => (
-                                <a
+                        <div className="p-6 flex flex-col gap-6">
+                            {navLinks.map((link, i) => (
+                                <motion.a
                                     key={link.name}
+                                    initial={{ opacity: 0, y: -20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: i * 0.05 + 0.1, duration: 0.4, ease: [0.16, 1, 0.3, 1] as [number, number, number, number] }}
                                     href={link.href}
-                                    className="text-lg font-medium"
+                                    className="text-2xl font-bold tracking-tight hover:text-primary transition-colors"
+                                    style={{ fontFamily: 'var(--font-display)' }}
                                     onClick={(e) => handleNavClick(e, link.href)}
                                 >
                                     {link.name}
-                                </a>
+                                </motion.a>
                             ))}
                         </div>
                     </motion.div>

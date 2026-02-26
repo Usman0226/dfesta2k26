@@ -6,11 +6,9 @@ import { teamMembers, stats, type TeamMember } from "@/lib/teamData";
 import { Mail } from "lucide-react";
 
 
-/* ── Shared constants ───────────────────────────────────────────── */
 const EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
 const VP = { once: true, margin: "-60px 0px" };
 
-/* ── Count-up hook ──────────────────────────────────────────────── */
 function useCounter(target: number, duration = 1600) {
     const [count, setCount] = useState(0);
     const ref = useRef<HTMLSpanElement>(null);
@@ -169,7 +167,6 @@ function HODCard({ member }: { member: TeamMember }) {
     );
 }
 
-/* ── Faculty Card ───────────────────────────────────────────────── */
 function FacultyCard({ member, index }: { member: TeamMember; index: number }) {
     const fromLeft = index % 2 === 0;
     return (
@@ -182,12 +179,10 @@ function FacultyCard({ member, index }: { member: TeamMember; index: number }) {
             whileTap={{ scale: 0.98 }}
             className="group relative glass rounded-2xl p-5 flex items-center gap-4 border border-white/10 hover:border-white/20 transition-colors overflow-hidden cursor-default"
         >
-            {/* Side accent bar */}
             <div
                 className={`absolute left-0 top-0 bottom-0 w-[3px] rounded-l-2xl bg-gradient-to-b ${member.accent} opacity-80`}
             />
-
-            {/* Hover glow */}
+ 
             <div
                 className={`absolute inset-0 opacity-0 group-hover:opacity-15 transition-opacity duration-500 bg-gradient-to-br ${member.accent} blur-2xl -z-10`}
             />
@@ -204,7 +199,6 @@ function FacultyCard({ member, index }: { member: TeamMember; index: number }) {
     );
 }
 
-/* ── Student Card ───────────────────────────────────────────────── */
 function StudentCard({ member, index }: { member: TeamMember; index: number }) {
     return (
         <motion.div
@@ -235,7 +229,6 @@ function StudentCard({ member, index }: { member: TeamMember; index: number }) {
     );
 }
 
-/* ── Section heading with word-reveal ──────────────────────────── */
 function SectionHeading() {
     const ref = useRef<HTMLDivElement>(null);
     const inView = useInView(ref, { once: true, margin: "-80px 0px" });
@@ -261,7 +254,6 @@ function SectionHeading() {
     );
 }
 
-/* ── Divider line draw ──────────────────────────────────────────── */
 function LineDraw({ delay = 0 }: { delay?: number }) {
     return (
         <motion.div
@@ -274,7 +266,6 @@ function LineDraw({ delay = 0 }: { delay?: number }) {
     );
 }
 
-/* ── Role section wrapper ───────────────────────────────────────── */
 function RoleLabel({ children }: { children: React.ReactNode }) {
     return (
         <motion.div
@@ -289,8 +280,7 @@ function RoleLabel({ children }: { children: React.ReactNode }) {
     );
 }
 
-/* ── Main section ───────────────────────────────────────────────── */
-const About = () => {
+ const About = () => {
     const hod = teamMembers.find(m => m.role === "hod")!;
     const faculty = teamMembers.filter(m => m.role === "faculty");
     const students = teamMembers.filter(m => m.role === "student");

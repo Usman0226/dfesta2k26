@@ -24,6 +24,13 @@ const Hero = () => {
         },
     });
 
+    const ScrollToEvents = () => {
+        const eventsSection = document.getElementById("events");
+        if (eventsSection) {
+            eventsSection.scrollIntoView({ behavior: "smooth" });
+        }
+    };
+
     return (
         <section className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-4 py-20">
 
@@ -31,13 +38,7 @@ const Hero = () => {
             <div className="absolute inset-0 pointer-events-none -z-10">
                 <div className="absolute top-[10%] left-[5%] w-[50%] h-[50%] bg-primary/20 dark:bg-primary/10 blur-[130px] rounded-full" />
                 <div className="absolute bottom-[10%] right-[5%] w-[50%] h-[50%] bg-secondary/20 dark:bg-secondary/15 blur-[130px] rounded-full" />
-                <div
-                    className="absolute inset-0 opacity-[0.03] dark:opacity-[0.06]"
-                    style={{
-                        backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)',
-                        backgroundSize: '40px 40px',
-                    }}
-                />
+
             </div>
 
             <div className="max-w-4xl w-full flex flex-col items-center text-center gap-8 relative z-10">
@@ -61,6 +62,7 @@ const Hero = () => {
                 {/* ── Register CTA ──
                     Soft trailing entry — 250 ms after the countdown */}
                 <motion.button
+                    onClick={() => ScrollToEvents()}
                     animate={smoothReveal(0.25).animate}
                     transition={smoothReveal(0.25).transition}
                     whileHover={{ scale: 1.04 }}
@@ -68,7 +70,7 @@ const Hero = () => {
                     style={{ pointerEvents: isRevealComplete ? "auto" : "none" }}
                     className="px-10 py-4 rounded-2xl bg-primary text-white font-bold text-base tracking-wide hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20"
                 >
-                    Register Now
+                    Explore Events
                 </motion.button>
             </div>
         </section>
