@@ -12,7 +12,7 @@ interface EventCardProps {
 
 const EventCard = ({ event, index }: EventCardProps) => {
     // Dynamically get icon component
-    const IconComponent = (Icons as Record<string, React.ElementType>)[event.icon] || Icons.HelpCircle;
+    const IconComponent = (Icons as unknown as Record<string, React.ElementType>)[event.icon] || Icons.HelpCircle;
     const [isExpanded, setIsExpanded] = useState(false);
 
     // Prevent scrolling when modal is open
