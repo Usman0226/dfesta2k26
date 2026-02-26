@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import BrandReveal from './BrandReveal';
 import { CountDown } from "./ui/skiper-ui/CountDown";
 import { useAnimationContext } from '@/context/AnimationContext';
+import { TextGenerateEffect } from "./ui/text-generate-effect";
 
 const Hero = () => {
     const { isRevealComplete, setRevealComplete } = useAnimationContext();
@@ -15,7 +16,6 @@ const Hero = () => {
         animate: {
             opacity: isRevealComplete ? 1 : 0,
             y: isRevealComplete ? 0 : 10,
-            filter: isRevealComplete ? "blur(0px)" : "blur(6px)",
         },
         transition: {
             duration: 0.6,
@@ -46,6 +46,28 @@ const Hero = () => {
                 {/* ── D'FESTA brand reveal ── */}
                 <div className="w-full">
                     <BrandReveal onComplete={setRevealComplete} />
+                </div>
+
+                {/* ── Event Date ── */}
+                <div className="w-full flex items-center justify-center gap-4 sm:gap-6 mt-4 opacity-90">
+                    <motion.div
+                        initial={{ opacity: 0, scaleX: 0 }}
+                        animate={isRevealComplete ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="h-[2px] w-16 sm:w-32 bg-gradient-to-r from-transparent via-primary/50 to-primary origin-right rounded-full"
+                    />
+                    <TextGenerateEffect
+                        words="08.04.2025"
+                        className="text-primary dark:text-primary font-mono tracking-[0.3em] text-lg sm:text-xl drop-shadow-[0_0_15px_rgba(245,158,11,0.5)]"
+                        filter={false}
+                        duration={0.8}
+                    />
+                    <motion.div
+                        initial={{ opacity: 0, scaleX: 0 }}
+                        animate={isRevealComplete ? { opacity: 1, scaleX: 1 } : { opacity: 0, scaleX: 0 }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                        className="h-[2px] w-16 sm:w-32 bg-gradient-to-l from-transparent via-secondary/50 to-secondary origin-left rounded-full"
+                    />
                 </div>
 
                 {/* ── Countdown ──

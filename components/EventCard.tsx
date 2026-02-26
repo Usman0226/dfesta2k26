@@ -12,7 +12,7 @@ interface EventCardProps {
 
 const EventCard = ({ event, index }: EventCardProps) => {
     // Dynamically get icon component
-    const IconComponent = (Icons as any)[event.icon] || Icons.HelpCircle;
+    const IconComponent = (Icons as Record<string, React.ElementType>)[event.icon] || Icons.HelpCircle;
     const [isExpanded, setIsExpanded] = useState(false);
 
     // Prevent scrolling when modal is open
@@ -53,13 +53,13 @@ const EventCard = ({ event, index }: EventCardProps) => {
                             <IconComponent size={24} />
                         </motion.div>
                         <div>
-                            <motion.span layoutId={`category-${event.id}`} className="text-xs font-mono uppercase tracking-widest text-primary/80">{event.category}</motion.span>
-                            <motion.h3 layoutId={`title-${event.id}`} className="text-2xl font-bold tracking-tight mt-1">{event.title}</motion.h3>
+                            <span className="text-xs font-mono uppercase tracking-widest text-primary/80">{event.category}</span>
+                            <h3 className="text-2xl font-bold tracking-tight mt-1">{event.title}</h3>
                         </div>
-                        <motion.p layoutId={`desc-${event.id}`} className="text-sm text-muted-foreground line-clamp-2">{event.description}</motion.p>
+                        <p className="text-sm text-muted-foreground line-clamp-2">{event.description}</p>
                     </div>
 
-                    <motion.div layoutId={`details-${event.id}`} className="flex flex-col gap-3 pt-4 border-t border-black/10 dark:border-white/10">
+                    <div className="flex flex-col gap-3 pt-4 border-t border-black/10 dark:border-white/10">
                         <div className="flex items-center gap-2 text-xs font-medium opacity-70">
                             <Icons.Calendar size={14} />
                             <span>{event.date}</span>
@@ -72,7 +72,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                             <Icons.Clock size={14} />
                             <span>{event.time}</span>
                         </div>
-                    </motion.div>
+                    </div>
 
                     <div className="flex gap-3 w-full mt-2 pointer-events-auto">
                         <motion.button
@@ -85,7 +85,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                         <motion.button
                             whileTap={{ scale: 0.95 }}
                             onClick={(e) => e.stopPropagation()}
-                            className="flex-1 py-3 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:bg-primary dark:hover:bg-primary transition-colors hover:text-white shadow-md z-10"
+                            className="border border-gray-100 flex-1 py-3 rounded-2xl bg-black text-white dark:bg-white dark:text-black font-bold text-sm hover:bg-primary dark:hover:bg-primary transition-colors hover:text-white shadow-md z-10"
                         >
                             Register
                         </motion.button>
@@ -97,19 +97,19 @@ const EventCard = ({ event, index }: EventCardProps) => {
             <AnimatePresence>
                 {isExpanded && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6 md:p-12">
-                        {/* Blur Backdrop */}
+                        {/* Backdrop - Solid semi-transparent, no blur for performance */}
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsExpanded(false)}
-                            className="absolute inset-0 bg-white/40 dark:bg-black/60 backdrop-blur-sm cursor-pointer"
+                            className="absolute inset-0 bg-black/60 cursor-pointer"
                         />
 
                         {/* Expanded Card Container */}
                         <motion.div
                             layoutId={`card-container-${event.id}`}
-                            className="relative text-black dark:text-white w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white/95 dark:bg-zinc-950/95 backdrop-blur-2xl rounded-[2rem] shadow-2xl border border-black/5 dark:border-white/10 flex flex-col z-10"
+                            className="relative text-black dark:text-white w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white dark:bg-zinc-950 rounded-[2rem] shadow-2xl border border-black/5 dark:border-white/10 flex flex-col z-10"
                             style={{ scrollbarWidth: 'none' }}
                         >
                             {/* Sticky Modal Header (to house close button nicely) */}
@@ -119,7 +119,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                                     animate={{ opacity: 1, scale: 1 }}
                                     exit={{ opacity: 0, scale: 0.8 }}
                                     onClick={() => setIsExpanded(false)}
-                                    className="p-3 rounded-full bg-black/5 hover:bg-black/10 dark:bg-white/10 dark:hover:bg-white/20 transition-colors pointer-events-auto text-black dark:text-white backdrop-blur-md"
+                                    className="p-3 rounded-full bg-black/10 hover:bg-black/20 dark:bg-white/10 dark:hover:bg-white/20 transition-colors pointer-events-auto text-black dark:text-white"
                                 >
                                     <Icons.X size={20} />
                                 </motion.button>
@@ -131,15 +131,31 @@ const EventCard = ({ event, index }: EventCardProps) => {
                                     <motion.div layoutId={`icon-${event.id}`} className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary">
                                         <IconComponent size={32} />
                                     </motion.div>
-                                    <div>
-                                        <motion.span layoutId={`category-${event.id}`} className="text-sm font-mono uppercase tracking-widest text-primary/80">{event.category}</motion.span>
-                                        <motion.h3 layoutId={`title-${event.id}`} className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mt-2 text-black dark:text-white">{event.title}</motion.h3>
-                                    </div>
-                                    <motion.p layoutId={`desc-${event.id}`} className="text-lg md:text-xl text-black/70 dark:text-white/70 leading-relaxed mt-2">{event.description}</motion.p>
+                                    <motion.div
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: 0.1 }}
+                                    >
+                                        <span className="text-sm font-mono uppercase tracking-widest text-primary/80 block">{event.category}</span>
+                                        <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mt-2 text-black dark:text-white">{event.title}</h3>
+                                    </motion.div>
+                                    <motion.p
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ delay: 0.15 }}
+                                        className="text-lg md:text-xl text-black/70 dark:text-white/70 leading-relaxed mt-2"
+                                    >
+                                        {event.description}
+                                    </motion.p>
                                 </div>
 
                                 {/* Event Time/Location Grid */}
-                                <motion.div layoutId={`details-${event.id}`} className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-8 border-b border-black/10 dark:border-white/10">
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.98 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    transition={{ delay: 0.2 }}
+                                    className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-8 border-b border-black/10 dark:border-white/10"
+                                >
                                     <div className="flex items-center gap-4 text-black dark:text-white">
                                         <div className="p-3 rounded-2xl bg-black/5 dark:bg-white/5 text-primary"><Icons.Calendar size={20} /></div>
                                         <div className="flex flex-col">
@@ -168,7 +184,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: -10 }}
-                                    transition={{ delay: 0.1, duration: 0.3 }}
+                                    transition={{ delay: 0.25, duration: 0.3 }}
                                     className="grid grid-cols-1 md:grid-cols-2 gap-8 py-8"
                                 >
                                     <div className="space-y-6">
@@ -237,7 +253,7 @@ const EventCard = ({ event, index }: EventCardProps) => {
                                 animate={{ opacity: 1, y: 0 }}
                                 exit={{ opacity: 0, y: 20 }}
                                 transition={{ delay: 0.2 }}
-                                className="sticky bottom-0 w-full mt-auto pt-4 border-t border-black/10 dark:border-white/10 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-xl p-6 sm:p-8"
+                                className="sticky bottom-0 w-full mt-auto pt-4 border-t border-black/10 dark:border-white/10 bg-white dark:bg-zinc-950 p-6 sm:p-8"
                             >
                                 <motion.button
                                     whileTap={{ scale: 0.98 }}
