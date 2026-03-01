@@ -10,8 +10,6 @@ import { TextGenerateEffect } from "./ui/text-generate-effect";
 const Hero = () => {
     const { isRevealComplete, setRevealComplete } = useAnimationContext();
 
-    // Shared smooth reveal — opacity + tiny lift + blur defocus
-    // Everything is pre-rendered so the layout NEVER shifts.
     const smoothReveal = (delay = 0) => ({
         animate: {
             opacity: isRevealComplete ? 1 : 0,
@@ -43,7 +41,7 @@ const Hero = () => {
 
             <div className="max-w-4xl w-full flex flex-col items-center text-center gap-8 relative z-10">
 
-                <div className="w-full">
+                <div className="mt-10 w-full">
                     <BrandReveal onComplete={setRevealComplete} />
                 </div>
 

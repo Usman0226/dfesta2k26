@@ -4,13 +4,52 @@ import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useAnimationContext } from '@/context/AnimationContext';
 
+const VIEW_BOX = "4 -155 710 185";
+
+const DFESTA_PATHS = [
+    {
+        char: "D",
+        // Absolute path — no translate needed
+        path: "M38.2000 17.4000L38.2000 17.4000Q31.2000 17.4000 24.9000 15.5000Q18.6000 13.6000 14 7.4000L14 7.4000Q14.6000 2.6000 16.9000-6.6000Q19.2000-15.8000 22.6000-27.5000Q26-39.2000 29.8000-51.6000Q33.6000-64 37.3000-75.3000Q41-86.6000 43.9000-95.1000Q46.8000-103.6000 48.2000-107.4000L48.2000-107.4000Q48.8000-109 50.2000-112.2000Q51.6000-115.4000 53.8000-118.8000Q56-122.2000 58.9000-124.5000Q61.8000-126.8000 65.2000-126.8000L65.2000-126.8000Q68.6000-126.8000 72.8000-124L72.8000-124Q66.6000-110 60.3000-92.9000Q54-75.8000 48.3000-57.7000Q42.6000-39.6000 37.9000-22.5000Q33.2000-5.4000 30.2000 8.8000L30.2000 8.8000Q31.8000 9.4000 34.7000 9.7000Q37.6000 10 40.2000 10L40.2000 10Q53.2000 10 65 3.7000Q76.8000-2.6000 86.7000-13.1000Q96.6000-23.6000 104-36.7000Q111.4000-49.8000 115.4000-63.6000Q119.4000-77.4000 119.4000-90L119.4000-90Q119.4000-106.2000 113.9000-116.3000Q108.4000-126.4000 98.8000-131.1000Q89.2000-135.8000 76.8000-135.8000L76.8000-135.8000Q63.8000-135.8000 53.4000-131.1000Q43-126.4000 37.1000-118.3000Q31.2000-110.2000 31.2000-99.8000L31.2000-99.8000Q31.2000-97.6000 31.6000-95.1000Q32-92.6000 33-90.2000L33-90.2000Q24.4000-90.2000 20.7000-93.9000Q17-97.6000 17-103L17-103Q17-110 22.1000-117.2000Q27.2000-124.4000 36.3000-130.5000Q45.4000-136.6000 57.4000-140.3000Q69.4000-144 83.4000-144L83.4000-144Q103-144 114.8000-136.5000Q126.6000-129 131.9000-116.3000Q137.2000-103.6000 137.2000-88L137.2000-88Q137.2000-70.8000 131.7000-55.1000Q126.2000-39.4000 116.5000-26.2000Q106.8000-13 94.1000-3.2000Q81.4000 6.6000 67.1000 12Q52.8000 17.4000 38.2000 17.4000Z",
+    },
+    {
+        char: "'",
+        path: "M168.2000-115.2000L168.2000-115.2000Q165.2000-116.8000 163.9000-119.1000Q162.6000-121.4000 162.6000-124L162.6000-124Q162.6000-128 164.4000-132.7000Q166.2000-137.4000 169.1000-140.9000Q172-144.4000 175.2000-144.4000L175.2000-144.4000Q177.6000-144.4000 179.6000-142.4000Q181.6000-140.4000 181.8000-137L181.8000-137Q177.4000-132.6000 173.6000-126.4000Q169.8000-120.2000 168.2000-115.2000Z",
+    },
+    {
+        char: "F",
+        path: "M201.2000 17.4000L201.2000 17.4000Q190.6000 16.6000 187.3000 12.2000Q184.0000 7.8000 184.0000 1.2000L184.0000 1.2000Q184.0000-6.2000 186.6000-16.6000Q189.2000-27 193.4000-38.8000Q197.6000-50.6000 202.6000-62.2000L202.6000-62.2000Q200.4000-62 195.7000-61.6000Q191.0000-61.2000 186.1000-60.7000Q181.2000-60.2000 178.2000-59.6000L178.2000-59.6000Q178.8000-65.8000 182.9000-69.3000Q187.0000-72.8000 193.5000-74.4000Q200.0000-76 207.6000-76.2000L207.6000-76.2000Q212.8000-90.6000 218.3000-104.3000Q223.8000-118 229.4000-129.4000L229.4000-129.4000Q228.2000-129.6000 226.6000-129.7000Q225.0000-129.8000 222.2000-129.8000L222.2000-129.8000Q210.0000-129.8000 203.3000-127.2000Q196.6000-124.6000 194.1000-119.8000Q191.6000-115 191.6000-108L191.6000-108Q191.6000-103 192.6000-98.9000Q193.6000-94.8000 195.6000-90L195.6000-90Q186.2000-91.6000 182.2000-96.1000Q178.2000-100.6000 178.2000-107.4000L178.2000-107.4000Q178.2000-117.8000 185.9000-125.8000Q193.6000-133.8000 206.7000-138.4000Q219.8000-143 236.2000-143L236.2000-143Q246.8000-143 257.4000-141.6000Q268-140.2000 277.2000-140.2000L277.2000-140.2000Q282.2000-140.2000 286.8000-140.9000Q291.4000-141.6000 297.4000-143.2000L297.4000-143.2000Q287.8000-132.6000 281.7000-129Q275.6000-125.4000 269.8000-125.4000L269.8000-125.4000Q265-125.4000 257.4000-126.7000Q249.8000-128 241.0000-128.6000L241.0000-128.6000Q238.4000-122.2000 235.4000-113.8000Q232.4000-105.4000 229.3000-95.8000Q226.2000-86.2000 223.0000-76L223.0000-76Q233.4000-75.2000 241.8000-74.2000Q250.2000-73.2000 260.4000-72.8000L260.4000-72.8000Q258-69.6000 255.5000-67.7000Q253.0000-65.8000 248.9000-65Q244.8000-64.2000 237.7000-63.8000Q230.6000-63.4000 219.2000-63.2000L219.2000-63.2000Q217.6000-57.2000 215.8000-51Q214.0000-44.8000 212.7000-40.4000Q211.4000-36 211.0000-35L211.0000-35Q205.4000-15.8000 203.3000-3.7000Q201.2000 8.4000 201.2000 17.4000Z",
+    },
+    {
+        char: "E",
+        path: "M305.8000 17.4000L305.8000 17.4000Q293 17.4000 283.4000 12.3000Q273.8000 7.2000 268.5000-1.3000Q263.2000-9.8000 263.2000-20.2000L263.2000-20.2000Q263.2000-29 267-37.6000Q270.8000-46.2000 277.7000-53.3000Q284.6000-60.4000 293.9000-65.3000Q303.2000-70.2000 314.2000-71.8000L314.2000-71.8000Q307-78.2000 303.4000-86Q299.8000-93.8000 299.8000-102L299.8000-102Q299.8000-112.6000 305.2000-122.2000Q310.6000-131.8000 320.4000-137.8000Q330.2000-143.8000 343.2000-143.8000L343.2000-143.8000Q355.4000-143.8000 362-137.9000Q368.6000-132 368.6000-120.8000L368.6000-120.8000Q368.6000-113 365.8000-105.9000Q363-98.8000 359.1000-94.4000Q355.2000-90 351.4000-90L351.4000-90Q348.6000-90 346.1000-92.5000Q343.6000-95 341.8000-98.2000L341.8000-98.2000Q349.2000-104.2000 354.3000-111Q359.4000-117.8000 359.4000-125L359.4000-125Q359.4000-131 355.4000-134.1000Q351.4000-137.2000 345-137.2000L345-137.2000Q336-137.2000 329.9000-131.7000Q323.8000-126.2000 320.7000-117.7000Q317.6000-109.2000 317.6000-100.2000L317.6000-100.2000Q317.6000-91.6000 320.8000-82.9000Q324-74.2000 332.4000-67.8000L332.4000-67.8000Q318-65.6000 307.4000-57.9000Q296.8000-50.2000 291-40Q285.2000-29.8000 285.2000-19.8000L285.2000-19.8000Q285.2000-13.8000 287.7000-7.2000Q290.2000-0.6000 295.9000 3.9000Q301.6000 8.4000 311.2000 8.4000L311.2000 8.4000Q322.2000 8.4000 332.8000 2.3000Q343.4000-3.8000 352.3000-13.8000Q361.2000-23.8000 366.6000-35L366.6000-35L372-31.6000Q364.6000-17.8000 354.6000-6.7000Q344.6000 4.4000 332.4000 10.9000Q320.2000 17.4000 305.8000 17.4000Z",
+    },
+    {
+        char: "S",
+        path: "M417.2000 17.4000L417.2000 17.4000Q405.6000 17.4000 395.1000 13.4000Q384.6000 9.4000 378 1.2000Q371.4000-7 371.4000-19.2000L371.4000-19.2000Q371.4000-30 376.2000-36.1000Q381-42.2000 388.2000-44.6000Q395.4000-47 402.2000-47L402.2000-47Q395.8000-40.2000 392.5000-33Q389.2000-25.8000 389.2000-19.2000L389.2000-19.2000Q389.2000-12.4000 392.7000-6.5000Q396.2000-0.6000 403.2000 3.1000Q410.2000 6.8000 420.6000 6.8000L420.6000 6.8000Q429.6000 6.8000 438.1000 3.8000Q446.6000 0.8000 452.1000-5.2000Q457.6000-11.2000 457.6000-20.2000L457.6000-20.2000Q457.6000-28.4000 452.9000-34.3000Q448.2000-40.2000 440.8000-44.9000Q433.4000-49.6000 425.2000-53.9000Q417-58.2000 409.6000-63.2000Q402.2000-68.2000 397.5000-74.8000Q392.8000-81.4000 392.8000-90.6000L392.8000-90.6000Q392.8000-98.8000 396.9000-108.1000Q401-117.4000 408.6000-125.6000Q416.2000-133.8000 427-138.9000Q437.8000-144 451-144L451-144Q464.8000-144 470.4000-138.2000Q476-132.4000 476-123L476-123Q476-115.6000 473.4000-107.2000Q470.8000-98.8000 467.1000-91.2000Q463.4000-83.6000 460-78.2000L460-78.2000Q455.6000-79.2000 453.4000-81.7000Q451.2000-84.2000 451.2000-88.4000L451.2000-88.4000Q451.2000-92.6000 452.9000-97.8000Q454.6000-103 456.9000-108.6000Q459.2000-114.2000 460.9000-119.5000Q462.6000-124.8000 462.6000-128.8000L462.6000-128.8000Q462.6000-132.4000 460.5000-134.4000Q458.4000-136.4000 452-136.4000L452-136.4000Q442.4000-136.4000 434.4000-132.2000Q426.4000-128 420.5000-121.6000Q414.6000-115.2000 411.4000-108.1000Q408.2000-101 408.2000-95.2000L408.2000-95.2000Q408.2000-88 412.8000-82.9000Q417.4000-77.8000 424.7000-73.6000Q432-69.4000 440.1000-65.2000Q448.2000-61 455.5000-55.8000Q462.8000-50.6000 467.4000-43.4000Q472-36.2000 472-25.8000L472-25.8000Q472-15.4000 467.3000-7.4000Q462.6000 0.6000 454.6000 6.1000Q446.6000 11.6000 436.9000 14.5000Q427.2000 17.4000 417.2000 17.4000Z",
+    },
+    {
+        char: "T",
+        path: "M525 17.4000L525 17.4000Q514 17.4000 509.8000 13.1000Q505.6000 8.8000 505.4000 2L505.4000 2Q505.4000-3.8000 507.7000-11.9000Q510-20 512.4000-27.4000L512.4000-27.4000Q517.2000-41.6000 522.4000-55.4000Q527.6000-69.2000 532.9000-82Q538.2000-94.8000 543.1000-106.4000Q548-118 552.2000-127.8000L552.2000-127.8000Q538.6000-127.6000 528.7000-127Q518.8000-126.4000 510.6000-125.5000Q502.4000-124.6000 493.6000-123L493.6000-123Q494.6000-131.4000 501.5000-135.9000Q508.4000-140.4000 520-142.2000Q531.6000-144 546.6000-144L546.6000-144Q554.4000-144 561.3000-143.7000Q568.2000-143.4000 574.5000-142.8000Q580.8000-142.2000 586.8000-141.6000L586.8000-141.6000Q599.4000-140.4000 606.9000-140Q614.4000-139.6000 617.6000-139.6000L617.6000-139.6000Q611.6000-134 602.5000-131.5000Q593.4000-129 583.4000-128.4000Q573.4000-127.8000 564.4000-127.8000L564.4000-127.8000Q554.8000-104.2000 546.8000-78.8000Q538.8000-53.4000 532-28.6000L532-28.6000Q529.4000-19 527.7000-12.3000Q526-5.6000 525.2000-0.1000Q524.4000 5.4000 524.4000 11.6000L524.4000 11.6000Q524.4000 12.6000 524.5000 13.9000Q524.6000 15.2000 525 17.4000Z",
+    },
+    {
+        char: "A",
+        path: "M582.8000 17.4000L582.8000 17.4000Q576.8000 14.2000 575.2000 10.8000Q573.6000 7.4000 573.6000 5L573.6000 5Q573.6000-0.4000 577.5000-9.5000Q581.4000-18.6000 588-30.4000Q594.6000-42.2000 603-55L603-55Q596.8000-55.4000 591.2000-55.6000Q585.6000-55.8000 576.8000-55.8000L576.8000-55.8000L573.6000-55.8000Q576.4000-63 582.5000-65.9000Q588.6000-68.8000 596.8000-68.8000L596.8000-68.8000Q600.2000-68.8000 603.9000-68.4000Q607.6000-68 611.6000-67.6000L611.6000-67.6000Q621.6000-82 631.3000-94.8000Q641-107.6000 649.7000-117.9000Q658.4000-128.2000 665.2000-134.8000L665.2000-134.8000Q674.8000-144.4000 679.2000-144.4000L679.2000-144.4000Q682-144.4000 685.5000-142.2000Q689-140 692.8000-136.6000L692.8000-136.6000Q690.8000-135 687.7000-128.4000Q684.6000-121.8000 681.1000-111.7000Q677.6000-101.6000 674.1000-89.6000Q670.6000-77.6000 667.8000-65.2000Q665-52.8000 663.3000-41.5000Q661.6000-30.2000 661.6000-21.6000L661.6000-21.6000Q661.6000-13.6000 663.2000-9.7000Q664.8000-5.8000 668.6000-5.8000L668.6000-5.8000Q673.2000-5.8000 680-12.8000Q686.8000-19.8000 695.2000-35.6000L695.2000-35.6000L698.8000-31.8000Q692.6000-15.4000 682.7000-4.8000Q672.8000 5.8000 661.6000 5.8000L661.6000 5.8000Q652 5.8000 648-2.5000Q644-10.8000 644-25.2000L644-25.2000Q644-29.8000 644.6000-35.6000Q645.2000-41.4000 646.6000-50L646.6000-50Q637.8000-51.4000 631-52.2000Q624.2000-53 618-53.8000L618-53.8000Q608.4000-36.8000 599.4000-18.6000Q590.4000-0.4000 582.8000 17.4000ZM648.6000-59.8000L648.6000-59.8000Q651.2000-71.6000 654.7000-83.7000Q658.2000-95.8000 662.1000-106.9000Q666-118 669.8000-126.8000L669.8000-126.8000Q663.8000-122 656.4000-113Q649-104 640.9000-91.8000Q632.8000-79.6000 624.4000-65.2000L624.4000-65.2000Q630.4000-64 636.4000-62.6000Q642.4000-61.2000 648.6000-59.8000Z",
+    },
+];
+
+const STROKE_DURATION = 0.9;
+const STAGGER_DELAY = 0.32;
+const FILL_DELAY = DFESTA_PATHS.length * STAGGER_DELAY + STROKE_DURATION - 0.1;
+
+
+// Easing curves
+const STROKE_EASE: [number, number, number, number] = [0.4, 0, 0.2, 1];
+const FILL_EASE: [number, number, number, number] = [0.16, 1, 0.3, 1];
+
 const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
     const { shouldStartBrandReveal } = useAnimationContext();
-
-    const text = "D'FESTA";
-    const letters = text.split("");
-
-    const TOTAL_MS = 3800;
+    const TOTAL_MS = 4200;
 
     useEffect(() => {
         if (!shouldStartBrandReveal) return;
@@ -18,140 +57,131 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
         return () => clearTimeout(timer);
     }, [shouldStartBrandReveal, onComplete]);
 
-    const STROKE_DURATION = 0.65;
-    const STAGGER_DELAY = 0.3;
-    const FILL_DELAY = letters.length * STAGGER_DELAY + STROKE_DURATION - 0.2;
+    const animateState = shouldStartBrandReveal ? "visible" : "hidden";
 
-    const getLetterStroke = (i: number) => ({
-        hidden: { strokeDashoffset: 3000, opacity: 0 },
+    const strokeVariants = (i: number) => ({
+        hidden: { pathLength: 0, opacity: 0, y: 6 },
         visible: {
-            strokeDashoffset: 0,
+            pathLength: 1,
             opacity: 1,
+            y: 0,
             transition: {
-                strokeDashoffset: {
+                pathLength: {
                     duration: STROKE_DURATION,
                     delay: i * STAGGER_DELAY,
-                    ease: "easeInOut",
+                    ease: STROKE_EASE,
                 },
-                opacity: {
-                    duration: 0.01,
-                    delay: i * STAGGER_DELAY,
-                },
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
+                opacity: { duration: 0.01, delay: i * STAGGER_DELAY },
+                y: { duration: STROKE_DURATION * 0.8, delay: i * STAGGER_DELAY, ease: FILL_EASE },
+            },
         },
     });
 
-    const getLetterFill = (i: number) => ({
+    const fillVariants = (i: number) => ({
         hidden: { fillOpacity: 0 },
         visible: {
             fillOpacity: 1,
             transition: {
-                duration: 0.35,
-                delay: FILL_DELAY + i * 0.035,
-                ease: "easeOut",
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
+                duration: 0.5,
+                delay: FILL_DELAY + i * 0.04,
+                ease: FILL_EASE,
+            },
         },
     });
 
     const subTextAnim = {
-        hidden: { opacity: 0, y: 10, letterSpacing: "0.2em" },
+        hidden: { opacity: 0, y: 12, filter: "blur(6px)" },
         visible: {
             opacity: 0.7,
             y: 0,
-            letterSpacing: "0.5em",
+            filter: "blur(0px)",
             transition: {
-                duration: 0.55,
-                delay: FILL_DELAY + 0.28,
-                ease: "easeOut",
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
+                duration: 0.7,
+                delay: FILL_DELAY + 0.4,
+                ease: FILL_EASE,
+            },
         },
     };
-
-    // Gate: don't animate at all until the Launch overlay has exited
-    const animateState = shouldStartBrandReveal ? "visible" : "hidden";
 
     return (
         <div className="relative flex flex-col items-center justify-center pb-2 min-h-[300px]">
             <motion.svg
-                viewBox="0 0 800 280"
+                viewBox={VIEW_BOX}
                 className="w-full h-auto"
                 style={{ overflow: "visible" }}
-                initial="hidden"
-                animate={animateState}
+                initial={{ opacity: 0, scale: 0.97 }}
+                animate={shouldStartBrandReveal
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.97 }
+                }
+                transition={{ duration: 0.5, ease: FILL_EASE }}
             >
-                {/*
-                  CRITICAL iOS Safari fix:
-                  Gradient and filter <defs> MUST live inside the same <svg> that
-                  references them. iOS Safari cannot resolve `url(#id)` references
-                  that point to elements in a separate, hidden <svg> anywhere else
-                  in the DOM — even though Chrome/Android/desktop handle this fine.
-                */}
                 <defs>
+                    {/* Gradient and filter MUST be inside the same svg (iOS Safari requirement) */}
                     <linearGradient id="ink-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#f59e0b" />
                         <stop offset="100%" stopColor="#6366f1" />
                     </linearGradient>
-                    <filter id="writing-glow" x="-50%" y="-50%" width="200%" height="200%">
+                    {/*
+                      Lightweight single-pass glow — safe on low-end GPUs.
+                      The heavy 3-pass (feGaussianBlur × 2 + feColorMatrix + feMerge)
+                      was replaced with a single blur + screen blend.
+                    */}
+                    <filter id="writing-glow" x="-20%" y="-20%" width="140%" height="140%" colorInterpolationFilters="sRGB">
                         <feGaussianBlur stdDeviation="3.5" result="blur" />
-                        <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
-                        <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                        <feBlend in="SourceGraphic" in2="blur" mode="screen" />
                     </filter>
                 </defs>
 
-                {/* Main Script Text */}
-                <g
-                    style={{
-                        fontFamily: "var(--font-script)",
-                        fontSize: "200",
-                        fontWeight: "bold",
-                        fontStyle: "italic",
-                    }}
-                >
-                    {letters.map((letter, i) => {
-                        const xPos = 121 + (i * 93);
-                        return (
-                            <g key={i} transform={`translate(${xPos}, 210)`}>
-                                {/* Stroke layer — draws each letter like a pen */}
-                                <motion.text
-                                    x="0"
-                                    y="0"
-                                    textAnchor="middle"
-                                    strokeDasharray="3000 3000"
-                                    initial="hidden"
-                                    animate={animateState}
-                                    variants={getLetterStroke(i)}
-                                    style={{
-                                        stroke: "url(#ink-gradient)",
-                                        strokeWidth: "5",
-                                        fill: "transparent",
-                                        strokeLinecap: "round",
-                                        strokeLinejoin: "round",
-                                        filter: "url(#writing-glow)",
-                                    }}
-                                >
-                                    {letter}
-                                </motion.text>
-
-                                {/* Fill layer — fades in after all strokes finish */}
-                                <motion.text
-                                    x="0"
-                                    y="0"
-                                    textAnchor="middle"
-                                    initial="hidden"
-                                    animate={animateState}
-                                    variants={getLetterFill(i)}
-                                    style={{ fill: "url(#ink-gradient)" }}
-                                >
-                                    {letter}
-                                </motion.text>
-                            </g>
-                        );
-                    })}
+                {/* Paths use absolute coordinates — no translate transform needed */}
+                {/* skewX(-10) restores the italic lean that fontStyle:italic gave the original SVG text */}
+                <g transform="skewX(-10)">
+                    {DFESTA_PATHS.map((letter, i) => (
+                        <g key={i}>
+                            {/* Stroke layer — pen-draw animation */}
+                            <motion.path
+                                d={letter.path}
+                                variants={strokeVariants(i)}
+                                initial="hidden"
+                                animate={animateState}
+                                style={{
+                                    stroke: "url(#ink-gradient)",
+                                    strokeWidth: 2,
+                                    fill: "transparent",
+                                    strokeLinecap: "round",
+                                    strokeLinejoin: "round",
+                                    filter: "url(#writing-glow)",
+                                }}
+                            />
+                            {/* Fill layer — blooms in after strokes complete */}
+                            <motion.path
+                                d={letter.path}
+                                variants={fillVariants(i)}
+                                initial="hidden"
+                                animate={animateState}
+                                style={{ fill: "url(#ink-gradient)" }}
+                            />
+                        </g>
+                    ))}
                 </g>
             </motion.svg>
+
+            {/* Subtle gradient rule — draws in after fill, premium accent line */}
+            <motion.div
+                className="w-3/4 max-w-sm h-px rounded-full mt-1"
+                style={{
+                    background: "linear-gradient(to right, transparent, #f59e0b, #6366f1, transparent)",
+                }}
+                initial={{ scaleX: 0, opacity: 0 }}
+                animate={shouldStartBrandReveal
+                    ? { scaleX: 1, opacity: 0.6 }
+                    : { scaleX: 0, opacity: 0 }
+                }
+                transition={{
+                    scaleX: { duration: 0.7, delay: FILL_DELAY + 0.35, ease: FILL_EASE },
+                    opacity: { duration: 0.4, delay: FILL_DELAY + 0.35 },
+                }}
+            />
 
             {/* Professional subheading */}
             <motion.p
@@ -174,8 +204,8 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
                 </span>
             </motion.p>
 
-            {/* Ambient depth */}
-            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/10 to-secondary/10 blur-[120px] rounded-full opacity-50 dark:opacity-40" />
+            {/* Cheap CSS ambient glow — no GPU filter, just a blurred div */}
+            <div className="absolute inset-0 -z-10 bg-gradient-to-r from-primary/10 to-secondary/10 blur-[80px] rounded-full opacity-40" />
         </div>
     );
 };
