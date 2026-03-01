@@ -10,19 +10,14 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
     const text = "D'FESTA";
     const letters = text.split("");
 
-    // How long after shouldStartBrandReveal=true before we call onComplete
-    // (Navbar + Hero CTA animate in). Covers all stroke + fill animations.
     const TOTAL_MS = 3800;
 
-    // Start the completion timer only once the overlay has fully exited
     useEffect(() => {
         if (!shouldStartBrandReveal) return;
         const timer = setTimeout(onComplete, TOTAL_MS);
         return () => clearTimeout(timer);
     }, [shouldStartBrandReveal, onComplete]);
 
-    // Per-letter stroke animation timings — no upfront START_DELAY needed
-    // because we now wait for shouldStartBrandReveal before animating at all.
     const STROKE_DURATION = 0.65;
     const STAGGER_DELAY = 0.3;
     const FILL_DELAY = letters.length * STAGGER_DELAY + STROKE_DURATION - 0.2;
@@ -42,6 +37,7 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
                     duration: 0.01,
                     delay: i * STAGGER_DELAY,
                 },
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any,
         },
     });
@@ -54,6 +50,7 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
                 duration: 0.35,
                 delay: FILL_DELAY + i * 0.035,
                 ease: "easeOut",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any,
         },
     });
@@ -68,6 +65,7 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
                 duration: 0.55,
                 delay: FILL_DELAY + 0.28,
                 ease: "easeOut",
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any,
         },
     };
@@ -77,27 +75,32 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
 
     return (
         <div className="relative flex flex-col items-center justify-center pb-2 min-h-[300px]">
-            <svg className="absolute w-0 h-0">
+            <motion.svg
+                viewBox="0 0 800 280"
+                className="w-full h-auto"
+                style={{ overflow: "visible" }}
+                initial="hidden"
+                animate={animateState}
+            >
+                {/*
+                  CRITICAL iOS Safari fix:
+                  Gradient and filter <defs> MUST live inside the same <svg> that
+                  references them. iOS Safari cannot resolve `url(#id)` references
+                  that point to elements in a separate, hidden <svg> anywhere else
+                  in the DOM — even though Chrome/Android/desktop handle this fine.
+                */}
                 <defs>
                     <linearGradient id="ink-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
                         <stop offset="0%" stopColor="#f59e0b" />
                         <stop offset="100%" stopColor="#6366f1" />
                     </linearGradient>
-
                     <filter id="writing-glow" x="-50%" y="-50%" width="200%" height="200%">
                         <feGaussianBlur stdDeviation="3.5" result="blur" />
                         <feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0" />
                         <feComposite in="SourceGraphic" in2="blur" operator="over" />
                     </filter>
                 </defs>
-            </svg>
 
-            <motion.svg
-                viewBox="0 0 800 280"
-                className="w-full h-auto overflow-visible"
-                initial="hidden"
-                animate={animateState}
-            >
                 {/* Main Script Text */}
                 <g
                     style={{
@@ -108,7 +111,7 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
                     }}
                 >
                     {letters.map((letter, i) => {
-                        const xPos = 70 + (i * 93);
+                        const xPos = 121 + (i * 93);
                         return (
                             <g key={i} transform={`translate(${xPos}, 210)`}>
                                 {/* Stroke layer — draws each letter like a pen */}
@@ -116,7 +119,7 @@ const BrandReveal = ({ onComplete }: { onComplete: () => void }) => {
                                     x="0"
                                     y="0"
                                     textAnchor="middle"
-                                    strokeDasharray="3000"
+                                    strokeDasharray="3000 3000"
                                     initial="hidden"
                                     animate={animateState}
                                     variants={getLetterStroke(i)}

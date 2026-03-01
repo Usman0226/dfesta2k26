@@ -134,7 +134,6 @@ const EventsList = () => {
                 </div>
             </motion.div>
 
-            {/* Active tab description */}
             <AnimatePresence mode="wait" initial={false}>
                 <motion.p
                     key={activeTab + '-desc'}
@@ -148,7 +147,6 @@ const EventsList = () => {
                 </motion.p>
             </AnimatePresence>
 
-            {/* Tab Content */}
             <AnimatePresence mode="wait" custom={direction} initial={false}>
                 <motion.div
                     key={activeTab}

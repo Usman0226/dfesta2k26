@@ -14,8 +14,7 @@ const fadeUp = (delay: number) => ({
     },
 });
 
-// ── Data-science scramble: each character cycles random alphanumerics
-//    then locks into the final letter, mimicking a live decode animation.
+
 const SCRAMBLE_CHARS = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#$%&";
 
 const DataScramble = ({
@@ -138,7 +137,7 @@ const Launch = ({ onComplete }: { onComplete?: () => void }) => {
             {/* Eyebrow */}
             <motion.p
                 variants={fadeUp(0.7)}
-                className="text-[10px] md:text-xs font-mono font-semibold tracking-[0.38em] uppercase text-zinc-400 mb-4"
+                className="text-[10px] md:text-sm font-mono font-semibold tracking-[0.38em] uppercase text-zinc-400 mb-4"
             >
                 MITS · Deemed to be University
             </motion.p>
@@ -146,7 +145,7 @@ const Launch = ({ onComplete }: { onComplete?: () => void }) => {
             {/* "DEPARTMENT OF" label */}
             <motion.p
                 variants={fadeUp(0.95)}
-                className="text-[11px] md:text-xs font-bold tracking-[0.5em] uppercase text-zinc-400 mb-1"
+                className="text-xs md:text-xs font-bold tracking-[0.5em] uppercase text-zinc-400 mb-1"
                 style={{ fontFamily: "var(--font-display)" }}
             >
                 Department of

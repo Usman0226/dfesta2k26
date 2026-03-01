@@ -137,7 +137,7 @@ const Footer = () => (
                             WebkitTextFillColor: "transparent",
                         }}
                     >
-                       <span className="flex gap-1 items-center"> ARC Club — Community <ExternalLink className="transition-all duration-300 hover:scale-110" size={13} onClick={()=> window.open("https://arc-club.vercel.app")} /></span>
+                        <span className="flex gap-1 items-center"> ARC Club — Community <ExternalLink className="transition-all duration-300 hover:scale-110" size={13} onClick={() => window.open("https://arc-club.vercel.app")} /></span>
                     </span>
                 </p>
             </motion.div>

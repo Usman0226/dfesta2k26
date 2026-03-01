@@ -1,0 +1,24 @@
+﻿
+C:\Users\chand\Downloads\DFESTA\dfesta2k26\components\BrandReveal.tsx
+  40:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  52:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  66:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\chand\Downloads\DFESTA\dfesta2k26\components\BrandTypography.tsx
+  44:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  58:18  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\chand\Downloads\DFESTA\dfesta2k26\components\Footer.tsx
+  5:59  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\chand\Downloads\DFESTA\dfesta2k26\components\Hero.tsx
+  8:10  warning  'TextGenerateEffect' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\chand\Downloads\DFESTA\dfesta2k26\components\ui\skiper-ui\ThemeToggle.tsx
+  51:50  warning  'name' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\chand\Downloads\DFESTA\dfesta2k26\components\ui\skiper-ui\skiper31.tsx
+  13:20  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+Γ£û 9 problems (6 errors, 3 warnings)
+

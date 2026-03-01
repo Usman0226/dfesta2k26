@@ -11,11 +11,18 @@ interface EventCardProps {
 }
 
 const EventCard = ({ event, index }: EventCardProps) => {
-    // Dynamically get icon component
     const IconComponent = (Icons as unknown as Record<string, React.ElementType>)[event.icon] || Icons.HelpCircle;
     const [isExpanded, setIsExpanded] = useState(false);
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    // Prevent scrolling when modal is open
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        setMousePos({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top,
+        });
+    };
+
     useEffect(() => {
         if (isExpanded) {
             document.body.style.overflow = 'hidden';
@@ -41,9 +48,24 @@ const EventCard = ({ event, index }: EventCardProps) => {
                     layout: { type: "spring", stiffness: 350, damping: 30 }
                 }}
                 whileHover={{ y: -5, transition: { type: "spring", stiffness: 400, damping: 25 } }}
+                onMouseMove={handleMouseMove}
                 className="group relative glass rounded-3xl p-6 overflow-hidden shadow-xl border border-gray-300 dark:border-white/10 flex flex-col h-full bg-white/60 dark:bg-black/40 backdrop-blur-sm sm:backdrop-blur-md cursor-pointer will-change-transform"
                 onClick={() => setIsExpanded(true)}
             >
+                {/* Dynamic Spotlight Effect on Hover */}
+                <div
+                    className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0 hidden dark:block"
+                    style={{
+                        background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(255,255,255, 0.08), transparent 40%)`,
+                    }}
+                />
+                <div
+                    className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-0 block dark:hidden"
+                    style={{
+                        background: `radial-gradient(400px circle at ${mousePos.x}px ${mousePos.y}px, rgba(0,0,0, 0.04), transparent 40%)`,
+                    }}
+                />
+
                 {/* Background Glow */}
                 <div className="absolute -inset-1 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-10 hidden sm:block" />
 
